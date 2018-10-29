@@ -15,7 +15,8 @@ export class TelefonePage {
   telefones : Telefone[];
   page : number = 0;
   
-  constructor(public navCtrl: NavController, public navParams: NavParams, 
+  constructor(public navCtrl: NavController, 
+              public navParams: NavParams, 
               public service : TelefoneService, 
               public loading: LoadingController) {
   }
@@ -23,7 +24,6 @@ export class TelefonePage {
 ionViewDidLoad(){
   this.getTelefones();
 }
-
   getTelefones() {
     this.service.getTelefone()
     .subscribe( response => {
@@ -38,6 +38,26 @@ ionViewDidLoad(){
       this.page++;
     }
     console.log(this.telefonesPage);
+  }
+
+  doRefresh(refresher) {
+    
+    this.telefonesPage = [];
+
+    setTimeout(() => {
+      this.getTelefones();
+      refresher.complete();
+    }, 2000);
+  }
+
+  doInfinite(infiniteScroll) {
+    
+
+    setTimeout(() => {
+
+      this.addPage();
+      infiniteScroll.complete();
+    }, 500);
   }
 
 }
